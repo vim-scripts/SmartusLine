@@ -1,6 +1,6 @@
 " smartusline.vim
 " ---------------------------------------------------------------
-" Version:  0.1
+" Version:  0.2
 " Authors: Alessio 'molok' Bolognino <alessio.bolognino+vim@gmail.com>
 " Last Modified: 2012-01-06
 " License:  GPL (Gnu Public License)
@@ -16,7 +16,12 @@ if exists('g:loaded_smartusline') || &cp
     finish
 endif
 
-let g:loaded_smartusline = 0.1
+if &stl == ""
+    echoerr "SmartusLine: statusline can't be empty"
+    finish
+endif
+
+let g:loaded_smartusline = 0.2
 let s:keepcpo         = &cpo
 set cpo&vim
 
@@ -36,6 +41,8 @@ if !exists('g:smartusline_hi_normal')
     let g:smartusline_hi_normal = 'guibg=#95e454 guifg=black ctermbg=lightgreen ctermfg=black'
 endif
 
+execute 'hi StatColor ' . g:smartusline_hi_normal
+
 "let g:smartusline_string_to_highlight = '(%n) %f '
 if !exists('g:smartusline_string_to_highlight')
     let g:smartusline_string_to_highlight = '%f'
@@ -43,8 +50,6 @@ endif
 
 let s:open_hi = '%#StatColor#'
 let s:close_hi = '%*'
-
-execute "hi StatColor " . g:smartusline_hi_normal
 
 function! SmartusLineWin(mode)
 
@@ -99,3 +104,6 @@ au WinEnter,BufEnter,VimEnter * call SmartusLineWin('Enter')
 
 au InsertLeave * call SmartusLineInsert('Leave')
 au InsertEnter * call SmartusLineInsert('Enter')
+
+" this shouldn't be needed, but it is
+au GUIEnter * execute 'hi StatColor ' g:smartusline_hi_normal
