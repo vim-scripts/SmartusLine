@@ -1,6 +1,6 @@
 " smartusline.vim
 " ---------------------------------------------------------------
-" Version:  0.2
+" Version:  0.2.1
 " Authors: Alessio 'molok' Bolognino <alessio.bolognino+vim@gmail.com>
 " Last Modified: 2012-01-06
 " License:  GPL (Gnu Public License)
@@ -21,7 +21,7 @@ if &stl == ""
     finish
 endif
 
-let g:loaded_smartusline = 0.2
+let g:loaded_smartusline = 0.2.1
 let s:keepcpo         = &cpo
 set cpo&vim
 
@@ -63,18 +63,18 @@ function! SmartusLineWin(mode)
     if start_idx >= 0
         if a:mode == 'Enter'
             if match(curr_stl, s:open_hi) < 0
-                    if start_idx > 0
-                        let new_stl .= curr_stl[0 : start_idx -1]
-                    endif
-                    let new_stl .= s:open_hi 
-                    let new_stl .= curr_stl[start_idx : end_idx -1] . s:close_hi
-                    let new_stl .= curr_stl[end_idx : ]
+                if start_idx > 0
+                    let new_stl .= curr_stl[0 : start_idx -1]
                 endif
+                let new_stl .= s:open_hi 
+                let new_stl .= curr_stl[start_idx : end_idx -1] . s:close_hi
+                let new_stl .= curr_stl[end_idx : ]
+            endif
         elseif a:mode == 'Leave'
             if match(curr_stl, s:open_hi) >= 0
-                    let new_stl .= curr_stl[0 : end_idx -1] 
-                    let new_stl .= curr_stl[end_idx +len(s:close_hi) :]
-                    let new_stl = substitute(new_stl, s:open_hi, '', 'g')
+                let new_stl .= curr_stl[0 : end_idx -1] 
+                let new_stl .= curr_stl[end_idx +len(s:close_hi) :]
+                let new_stl = substitute(new_stl, s:open_hi, '', 'g')
             endif
         endif
     endif
